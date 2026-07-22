@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<robot name="two_wheel_pyramid_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:include filename="$(find my_robot_description)/urdf/robot.gazebo"/>
+
+<xacro:arg name="mesh_path" default="package://my_robot_description/meshes/"/>
+
+  <!-- ============================================================ -->
+  <!-- PYRAMID CHASSIS - 3 stacked steps, Egyptian flag color order  -->
+  <!-- (red bottom, white middle, black top - widest to narrowest)   -->
+  <!-- ============================================================ -->
+
+  <!-- Step 1 - base / bottom step (RED) -->
+  <xacro:property name="step1_length" value="0.6"/>
+  <xacro:property name="step1_width" value="0.4"/>
+  <xacro:property name="step1_height" value="0.15"/>
+  <xacro:property name="step1_mass" value="3.0"/>
+
+  <!-- Step 2 - middle step (WHITE) -->
+  <xacro:property name="step2_length" value="0.42"/>
+  <xacro:property name="step2_width" value="0.28"/>
+  <xacro:property name="step2_height" value="0.12"/>
+  <xacro:property name="step2_mass" value="1.5"/>
+
+  <!-- Step 3 - top step (BLACK) -->
+  <xacro:property name="step3_length" value="0.26"/>
+  <xacro:property name="step3_width" value="0.18"/>
+  <xacro:property name="step3_height" value="0.10"/>
+  <xacro:property name="step3_mass" value="0.8"/>
+
+  <!-- Colors -->
+  <xacro:property name="color_red" value="0.80 0.07 0.15 1.0"/>     <!-- Egyptian flag red -->
+  <xacro:property name="color_white" value="1.0 1.0 1.0 1.0"/>       <!-- Egyptian flag white -->
+  <xacro:property name="color_black" value="0.05 0.05 0.05 1.0"/>    <!-- Egyptian flag black -->
+  <xacro:property name="color_gold" value="0.83 0.68 0.21 1.0"/>     <!-- golden eagle accent -->
+  <xacro:property name="color_wheel" value="0.55 0.35 0.12 1.0"/>    <!-- antique bronze, complements the gold -->
+
+  <!-- Wheels -->
+  <xacro:property name="wheel_radius" value="0.1"/>
+  <xacro:property name="wheel_width" value="0.05"/>
+  <xacro:property name="wheel_mass" value="0.5"/>
+  <xacro:property name="wheel_y_offset" value="0.23"/>
+
+  <link name="base_footprint"/>
+
+  <joint name="base_footprint_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ============== STEP 1 (base_link) - RED ============== -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="${step1_length} ${step1_width} ${step1_height}"/>
+      </geometry>
+      <material name="step1_red">
+        <color rgba="${color_black}"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${step1_length} ${step1_width} ${step1_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${step1_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${(1/12) * step1_mass * (step1_width*step1_width + step1_height*step1_height)}" ixy="0.0" ixz="0.0"
+               iyy="${(1/12) * step1_mass * (step1_length*step1_length + step1_height*step1_height)}" iyz="0.0"
+               izz="${(1/12) * step1_mass * (step1_length*step1_length + step1_width*step1_width)}"/>
+    </inertial>
+  </link>
+
+  <!-- ============== STEP 2 (middle_step_link) - WHITE ============== -->
+  <joint name="middle_step_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="middle_step_link"/>
+    <origin xyz="0 0 ${step1_height/2 + step2_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="middle_step_link">
+    <visual>
+      <geometry>
+        <box size="${step2_length} ${step2_width} ${step2_height}"/>
+      </geometry>
+      <material name="step2_white">
+        <color rgba="${color_white}"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${step2_length} ${step2_width} ${step2_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${step2_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${(1/12) * step2_mass * (step2_width*step2_width + step2_height*step2_height)}" ixy="0.0" ixz="0.0"
+               iyy="${(1/12) * step2_mass * (step2_length*step2_length + step2_height*step2_height)}" iyz="0.0"
+               izz="${(1/12) * step2_mass * (step2_length*step2_length + step2_width*step2_width)}"/>
+    </inertial>
+  </link>
+
+  <!-- ============== STEP 3 (top_step_link) - BLACK ============== -->
+  <joint name="top_step_joint" type="fixed">
+    <parent link="middle_step_link"/>
+    <child link="top_step_link"/>
+    <origin xyz="0 0 ${step2_height/2 + step3_height/2}" rpy="0 0 0"/>
+  </joint>
+
+  <link name="top_step_link">
+    <visual>
+      <geometry>
+        <box size="${step3_length} ${step3_width} ${step3_height}"/>
+      </geometry>
+      <material name="step3_black">
+        <color rgba="${color_red}"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${step3_length} ${step3_width} ${step3_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${step3_mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="${(1/12) * step3_mass * (step3_width*step3_width + step3_height*step3_height)}" ixy="0.0" ixz="0.0"
+               iyy="${(1/12) * step3_mass * (step3_length*step3_length + step3_height*step3_height)}" iyz="0.0"
+               izz="${(1/12) * step3_mass * (step3_length*step3_length + step3_width*step3_width)}"/>
+    </inertial>
+  </link>
+
+  <!-- ============================================================ -->
+  <!-- CAMERA - mounted on the MIDDLE (white) step, colored GOLD     -->
+  <!-- ============================================================ -->
+  <link name="camera_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="$(arg mesh_path)zed.stl"/>
+      </geometry>
+      <material name="camera_gold">
+        <color rgba="${color_gold}"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.08 0.03 0.03"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.00005" ixy="0.0" ixz="0.0"
+               iyy="0.00005" iyz="0.0"
+               izz="0.00005"/>
+    </inertial>
+  </link>
+
+  <joint name="camera_joint" type="fixed">
+    <parent link="middle_step_link"/>
+    <child link="camera_link"/>
+    <origin xyz="${step2_length/2 + 0.016} 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="camera_optical_link"/>
+
+  <joint name="camera_optical_joint" type="fixed">
+    <parent link="camera_link"/>
+    <child link="camera_optical_link"/>
+    <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+  </joint>
+
+  <!-- ============================================================ -->
+  <!-- LIDAR - mounted on TOP of the top (black) step, colored GOLD  -->
+  <!-- ============================================================ -->
+  <link name="lidar_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="$(arg mesh_path)lidar.STL"/>
+      </geometry>
+      <material name="lidar_gold">
+        <color rgba="${color_gold}"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.06" length="0.04"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.2"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+               iyy="0.0001" iyz="0.0"
+               izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent link="top_step_link"/>
+    <child link="lidar_link"/>
+    <origin xyz="0 0 ${step3_height/2 + 0.02}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- ============================================================ -->
+  <!-- WHEELS - 2 wheels (differential drive), antique bronze color  -->
+  <!-- ============================================================ -->
+  <xacro:macro name="wheel" params="prefix y_reflect">
+    <joint name="${prefix}_wheel_joint" type="continuous">
+      <parent link="base_link"/>
+      <child link="${prefix}_wheel_link"/>
+      <origin xyz="0 ${y_reflect * wheel_y_offset} 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+
+    <link name="${prefix}_wheel_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+        <material name="wheel_bronze">
+          <color rgba="${color_wheel}"/>
+        </material>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${wheel_mass}"/>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <inertia ixx="${(1/12) * wheel_mass * (3*wheel_radius*wheel_radius + wheel_width*wheel_width)}" ixy="0.0" ixz="0.0"
+                 iyy="${(1/12) * wheel_mass * (3*wheel_radius*wheel_radius + wheel_width*wheel_width)}" iyz="0.0"
+                 izz="${(1/2) * wheel_mass * (wheel_radius*wheel_radius)}"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <xacro:wheel prefix="left"  y_reflect="1"/>
+  <xacro:wheel prefix="right" y_reflect="-1"/>
+
+</robot>
