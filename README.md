@@ -22,7 +22,7 @@ task5-robot_description/
 └── robot_description/
     ├── urdf/
     │   ├── robot.urdf.xacro
-    │   └── robot.gazebo.xacro
+    │   └── robot.gazebo
     ├── meshes/
     │   ├── lidar.STL
     │   └── zed.stl
@@ -36,6 +36,7 @@ task5-robot_description/
     ├── package.xml
     ├── CMakeLists.txt
     └── README.md
+└── screenshots
 ```
 
 > Note: `build/`, `install/`, and `log/` directories are **not** included in this repository.
