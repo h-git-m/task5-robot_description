@@ -236,10 +236,8 @@ ros2 topic echo /scan
 
 The robot can be driven in three ways:
 
-**1. Keyboard teleoperation:**
-```bash
-ros2 run teleop_twist_keyboard teleop_twist_keyboard
-```
+**1. Keyboard :**
+
 Uses standard WASD-style keys to publish `/cmd_vel`.
 
 **2. Gazebo's built-in Teleop panel** — open the panel from the Gazebo GUI and use the on-screen controls to send velocity commands directly.
@@ -277,8 +275,8 @@ odom
 - **`base_footprint`** — the robot's 2D ground-projected reference frame; the `robot_base_frame` used by the DiffDrive and Odometry plugins.
 - **`base_link`** — the main body frame of the robot, fixed to `base_footprint` via a static joint.
 - **`left_wheel_link` / `right_wheel_link`** — connected to `base_link` via continuous joints; their transforms are updated live from `/joint_states`, which is bridged from Gazebo's `JointStatePublisher` plugin.
-- **`lidar_link`** — fixed joint from `Top_step_link`; used as the LiDAR sensor's frame (`gz_frame_id`) for `/scan` data.
-- **`camera_link` / `camera_optical_link`** — fixed joints from `middle_step_link`; used by the RGB camera plugin for `/camera/image_raw` and `/camera/camera_info`.
+- **`lidar_link`** — fixed joint from **`Top_step_link`**; used as the LiDAR sensor's frame (`gz_frame_id`) for `/scan` data.
+- **`camera_link` / `camera_optical_link`** — fixed joints from **`middle_step_link`**; used by the RGB camera plugin for `/camera/image_raw` and `/camera/camera_info`.
 
 A fully connected tree (no missing/disconnected frames) is required for RViz2 to correctly transform sensor data (LiDAR, camera) and the robot model into the `odom` frame. This was verified using:
 ```bash
