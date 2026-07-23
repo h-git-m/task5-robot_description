@@ -148,16 +148,23 @@ pose:
 
 ## 5. How to Launch RViz
 
-1. From your workspace root, source the install space:
+1. Launch the gazebo simualtion as shown in step#6
+
+Alternatively, launch the model-only view directly with:
+```bash
+ros2 launch robot_description display.launch.py
+```
+
+2. From your workspace root, source the install space:
    ```bash
    cd ~/your_workspace
    source install/setup.bash
    ```
-2. Launch RViz2:
+3. Launch RViz2:
    ```bash
    rviz2
    ```
-3. Inside the RViz menu bar, select **File → Open Config**, then locate and open `robot_view.rviz` (inside `robot_description/rviz/`).
+4. Inside the RViz menu bar, select **File → Open Config**, then locate and open `robot_view.rviz` (inside `robot_description/rviz/`).
 
 This preconfigured view will let you visualize:
 - The robot model
@@ -174,10 +181,6 @@ This preconfigured view will let you visualize:
 | LaserScan   | `/scan`                 |
 | Image       | `/camera/image_raw`     |
 
-Alternatively, launch the model-only view directly with:
-```bash
-ros2 launch robot_description display.launch.py
-```
 
 ---
 
