@@ -18,7 +18,7 @@ The robot is a two-wheeled differential-drive robot (`two_wheel_pyramid_robot`) 
 ## 2. Package Structure
 
 ```
-task4-robot_description/
+task5-robot_description/
 └── robot_description/
     ├── urdf/
     │   ├── robot.urdf.xacro
