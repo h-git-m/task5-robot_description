@@ -197,6 +197,7 @@ Then run:
 ```bash
 ros2 launch robot_description gazebo.launch.py
 ```
+Alternatively, run the launch file directly inside gazebo by starting your workspace first and then selecting the gazebo launch file created for this workspace.
 
 This launch file will:
 - Start Gazebo (server, with the correct `GZ_SIM_RESOURCE_PATH` set for meshes/models).
