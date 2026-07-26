@@ -293,7 +293,5 @@ ros2 run tf2_ros tf2_echo base_link left_wheel_link
 
 ## 10. Screenshots
 
-- Robot in RViz: [Robot in RViz](screenshots/robot_lidar_rviz.png)
-- TF tree: [TF Tree - RVIZ](screenshots/robot_lidar_TF_tree_rviz_gazebo.png) [TF Tree - ROS](frames.pdf)
+- Robot in RViz, LiDAR visualization and Camera visualization, and TF tree: [RViz and TF tree](screenshots/robot_RVIZ_LiDAR_Camera_TF_Tree.png)
 - Robot in Gazebo: [Robot in Gazebo](screenshots/robot_gazebo.png) 
-- LiDAR visualization and Camera visualization: [LiDAR](screenshots/robot_lidar_camera_rviz_gazebo.png)
