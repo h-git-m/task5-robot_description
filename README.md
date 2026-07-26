@@ -113,7 +113,7 @@ Expected output includes:
 
 **Move the robot from the terminal:**
 ```bash
-ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.0}}"
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.9}, angular: {z: 0.0}}"
 ```
 
 **Inspect the TF tree:**
