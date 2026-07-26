@@ -6,10 +6,10 @@
 
   <!-- ============================================================ -->
   <!-- PYRAMID CHASSIS - 3 stacked steps, Egyptian flag color order  -->
-  <!-- (red bottom, white middle, black top - widest to narrowest)   -->
+  <!-- (Black bottom, white middle, Red top - widest to narrowest)   -->
   <!-- ============================================================ -->
 
-  <!-- Step 1 - base / bottom step (RED) -->
+  <!-- Step 1 - base / bottom step (Black) -->
   <xacro:property name="step1_length" value="0.6"/>
   <xacro:property name="step1_width" value="0.4"/>
   <xacro:property name="step1_height" value="0.15"/>
@@ -21,7 +21,7 @@
   <xacro:property name="step2_height" value="0.12"/>
   <xacro:property name="step2_mass" value="1.5"/>
 
-  <!-- Step 3 - top step (BLACK) -->
+  <!-- Step 3 - top step (Red) -->
   <xacro:property name="step3_length" value="0.26"/>
   <xacro:property name="step3_width" value="0.18"/>
   <xacro:property name="step3_height" value="0.10"/>
@@ -39,10 +39,10 @@
   <xacro:property name="wheel_width" value="0.05"/>
   <xacro:property name="wheel_mass" value="0.5"/>
   <xacro:property name="wheel_y_offset" value="0.23"/>
+
   <!-- caster wheel -->
   <xacro:property name="caster_radius" value="0.05"/>
   <xacro:property name="caster_mass" value="0.1"/>
-
   <link name="base_footprint"/>
 
   <joint name="base_footprint_joint" type="fixed">
@@ -50,30 +50,38 @@
     <child link="base_link"/>
     <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
   </joint>
-
-  <!-- ============== STEP 1 (base_link) - RED ============== -->
-  <link name="base_link">
-    <visual>
-      <geometry>
-        <box size="${step1_length} ${step1_width} ${step1_height}"/>
-      </geometry>
-      <material name="step1_red">
-        <color rgba="${color_black}"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="${step1_length} ${step1_width} ${step1_height}"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <mass value="${step1_mass}"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="${(1/12) * step1_mass * (step1_width*step1_width + step1_height*step1_height)}" ixy="0.0" ixz="0.0"
-               iyy="${(1/12) * step1_mass * (step1_length*step1_length + step1_height*step1_height)}" iyz="0.0"
-               izz="${(1/12) * step1_mass * (step1_length*step1_length + step1_width*step1_width)}"/>
-    </inertial>
-  </link>
+  <!-- ============================================================ -->
+  <!-- CHASSIS STEP MACRO - box link (visual/collision/inertial)     -->
+  <!-- identical structure for all 3 steps, only size/mass/color     -->
+  <!-- differ, so it's parameterized the same way the wheel is.      -->
+  <!-- ============================================================ -->
+    <xacro:macro name="chassis_step" params="name length width height mass color">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+        </geometry>
+        <material name="${name}_material">
+          <color rgba="${color}"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="${length} ${width} ${height}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="${mass}"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="${(1/12) * mass * (width*width + height*height)}" ixy="0.0" ixz="0.0"
+                 iyy="${(1/12) * mass * (length*length + height*height)}" iyz="0.0"
+                 izz="${(1/12) * mass * (length*length + width*width)}"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+  <!-- ============== STEP 1 (base_link) - Black ============== -->
+  <xacro:chassis_step name="base_link" length="${step1_length}" width="${step1_width}"
+                       height="${step1_height}" mass="${step1_mass}" color="${color_black}"/>
 
   <!-- ============== STEP 2 (middle_step_link) - WHITE ============== -->
   <joint name="middle_step_joint" type="fixed">
@@ -82,59 +90,18 @@
     <origin xyz="0 0 ${step1_height/2 + step2_height/2}" rpy="0 0 0"/>
   </joint>
 
-  <link name="middle_step_link">
-    <visual>
-      <geometry>
-        <box size="${step2_length} ${step2_width} ${step2_height}"/>
-      </geometry>
-      <material name="step2_white">
-        <color rgba="${color_white}"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="${step2_length} ${step2_width} ${step2_height}"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <mass value="${step2_mass}"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="${(1/12) * step2_mass * (step2_width*step2_width + step2_height*step2_height)}" ixy="0.0" ixz="0.0"
-               iyy="${(1/12) * step2_mass * (step2_length*step2_length + step2_height*step2_height)}" iyz="0.0"
-               izz="${(1/12) * step2_mass * (step2_length*step2_length + step2_width*step2_width)}"/>
-    </inertial>
-  </link>
+  <xacro:chassis_step name="middle_step_link" length="${step2_length}" width="${step2_width}"
+                       height="${step2_height}" mass="${step2_mass}" color="${color_white}"/>
 
-  <!-- ============== STEP 3 (top_step_link) - BLACK ============== -->
+  <!-- ============== STEP 3 (top_step_link) - RED ============== -->
   <joint name="top_step_joint" type="fixed">
     <parent link="middle_step_link"/>
     <child link="top_step_link"/>
     <origin xyz="0 0 ${step2_height/2 + step3_height/2}" rpy="0 0 0"/>
   </joint>
 
-  <link name="top_step_link">
-    <visual>
-      <geometry>
-        <box size="${step3_length} ${step3_width} ${step3_height}"/>
-      </geometry>
-      <material name="step3_black">
-        <color rgba="${color_red}"/>
-      </material>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="${step3_length} ${step3_width} ${step3_height}"/>
-      </geometry>
-    </collision>
-    <inertial>
-      <mass value="${step3_mass}"/>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <inertia ixx="${(1/12) * step3_mass * (step3_width*step3_width + step3_height*step3_height)}" ixy="0.0" ixz="0.0"
-               iyy="${(1/12) * step3_mass * (step3_length*step3_length + step3_height*step3_height)}" iyz="0.0"
-               izz="${(1/12) * step3_mass * (step3_length*step3_length + step3_width*step3_width)}"/>
-    </inertial>
-  </link>
-
+  <xacro:chassis_step name="top_step_link" length="${step3_length}" width="${step3_width}"
+                       height="${step3_height}" mass="${step3_mass}" color="${color_red}"/>
   <!-- ============================================================ -->
   <!-- CAMERA - mounted on the MIDDLE (white) step, colored GOLD     -->
   <!-- ============================================================ -->
@@ -250,7 +217,6 @@
 
   <xacro:wheel prefix="left"  y_reflect="1"/>
   <xacro:wheel prefix="right" y_reflect="-1"/>
-
 
 <joint name="caster_wheel_joint" type="fixed">
   <parent link="base_link"/>
