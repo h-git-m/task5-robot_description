@@ -1,7 +1,5 @@
 # Task 5 — Robot Description: TF & Gazebo Simulation
 
-
-
 https://github.com/user-attachments/assets/3808b7c9-1340-4f08-b733-25e8189615b7
 
 ## 1. Project Overview
@@ -44,6 +42,7 @@ task5-robot_description/
 ```
 
 > Note: `build/`, `install/`, and `log/` directories are **not** included in this repository.
+> Note: rename package name from `robot_description` to `my_robot_description` since the launch files and the later commands are using this name.
 
 ---
 
