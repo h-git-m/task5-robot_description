@@ -10,22 +10,22 @@
   <!-- ============================================================ -->
 
   <!-- Step 1 - base / bottom step (Black) -->
-  <xacro:property name="step1_length" value="0.6"/>
-  <xacro:property name="step1_width" value="0.4"/>
-  <xacro:property name="step1_height" value="0.15"/>
-  <xacro:property name="step1_mass" value="3.0"/>
+  <xacro:property name="step1_length" value="0.2"/>
+  <xacro:property name="step1_width" value="0.15"/>
+  <xacro:property name="step1_height" value="0.05"/>
+  <xacro:property name="step1_mass" value="0.3"/>
 
   <!-- Step 2 - middle step (WHITE) -->
-  <xacro:property name="step2_length" value="0.42"/>
-  <xacro:property name="step2_width" value="0.28"/>
-  <xacro:property name="step2_height" value="0.12"/>
-  <xacro:property name="step2_mass" value="1.5"/>
+  <xacro:property name="step2_length" value="0.15"/>
+  <xacro:property name="step2_width" value="0.1"/>
+  <xacro:property name="step2_height" value="0.05"/>
+  <xacro:property name="step2_mass" value="0.15"/>
 
   <!-- Step 3 - top step (Red) -->
-  <xacro:property name="step3_length" value="0.26"/>
-  <xacro:property name="step3_width" value="0.18"/>
-  <xacro:property name="step3_height" value="0.10"/>
-  <xacro:property name="step3_mass" value="0.8"/>
+  <xacro:property name="step3_length" value="0.1"/>
+  <xacro:property name="step3_width" value="0.05"/>
+  <xacro:property name="step3_height" value="0.03"/>
+  <xacro:property name="step3_mass" value="0.08"/>
 
   <!-- Colors -->
   <xacro:property name="color_red" value="0.80 0.07 0.15 1.0"/>     <!-- Egyptian flag red -->
@@ -35,13 +35,13 @@
   <xacro:property name="color_wheel" value="0.55 0.35 0.12 1.0"/>    <!-- antique bronze, complements the gold -->
 
   <!-- Wheels -->
-  <xacro:property name="wheel_radius" value="0.1"/>
-  <xacro:property name="wheel_width" value="0.05"/>
-  <xacro:property name="wheel_mass" value="0.5"/>
-  <xacro:property name="wheel_y_offset" value="0.23"/>
+  <xacro:property name="wheel_radius" value="0.0325"/>
+  <xacro:property name="wheel_width" value="0.026"/>
+  <xacro:property name="wheel_mass" value="0.1"/>
+  <xacro:property name="wheel_y_offset" value="0.088"/>
 
   <!-- caster wheel -->
-  <xacro:property name="caster_radius" value="0.05"/>
+  <xacro:property name="caster_radius" value="0.015"/>
   <xacro:property name="caster_mass" value="0.1"/>
   <link name="base_footprint"/>
 
@@ -175,7 +175,7 @@
   <joint name="lidar_joint" type="fixed">
     <parent link="top_step_link"/>
     <child link="lidar_link"/>
-    <origin xyz="0 0 ${step3_height/2 + 0.02}" rpy="0 0 0"/>
+    <origin xyz="0.02 0 ${step3_height/2 + 0.03}" rpy="0 0 0"/>
   </joint>
 
   <!-- ============================================================ -->
@@ -185,7 +185,7 @@
     <joint name="${prefix}_wheel_joint" type="continuous">
       <parent link="base_link"/>
       <child link="${prefix}_wheel_link"/>
-      <origin xyz="0 ${y_reflect * wheel_y_offset} 0" rpy="0 0 0"/>
+      <origin xyz="${-step1_length/2+2*wheel_radius} ${y_reflect * wheel_y_offset} 0" rpy="0 0 0"/>
       <axis xyz="0 1 0"/>
     </joint>
 
@@ -222,7 +222,7 @@
   <parent link="base_link"/>
   <child link="caster_wheel_link"/>
   <!-- rear of the chassis, centered in y, dropped so the sphere still touches the ground -->
-  <origin xyz="${-step1_length/2 + caster_radius} 0 ${-(wheel_radius - caster_radius)}" rpy="0 0 0"/>
+  <origin xyz="${step1_length/2 - 2*caster_radius} 0 ${-(wheel_radius - caster_radius)}" rpy="0 0 0"/>
 </joint>
 
 <link name="caster_wheel_link">
