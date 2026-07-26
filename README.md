@@ -67,18 +67,18 @@ git push -u origin main
 
 **Build and source the package:**
 ```bash
-colcon build --packages-select robot_description
+colcon build --packages-select my_robot_description
 source install/setup.bash
 ```
 
 **Launch the robot model for TF verification (no Gazebo):**
 ```bash
-ros2 launch robot_description display.launch.py
+ros2 launch my_robot_description display.launch.py
 ```
 
 **Launch the robot in Gazebo:**
 ```bash
-ros2 launch robot_description gazebo.launch.py
+ros2 launch my_robot_description gazebo.launch.py
 ```
 
 **Inspect available Gazebo topics:**
@@ -156,7 +156,7 @@ pose:
 
 Alternatively, launch the model-only view directly with:
 ```bash
-ros2 launch robot_description display.launch.py
+ros2 launch my_robot_description display.launch.py
 ```
 
 2. From your workspace root, source the install space:
@@ -168,7 +168,7 @@ ros2 launch robot_description display.launch.py
    ```bash
    rviz2
    ```
-4. Inside the RViz menu bar, select **File → Open Config**, then locate and open `robot_view.rviz` (inside `robot_description/rviz/`).
+4. Inside the RViz menu bar, select **File → Open Config**, then locate and open `robot_view.rviz` (inside `my_robot_description/rviz/`).
 
 This preconfigured view will let you visualize:
 - The robot model
@@ -193,13 +193,13 @@ This preconfigured view will let you visualize:
 After creating the Gazebo launch file (`gazebo.launch.py`) and its related files — the bridge config (`gz_bridge.yaml`), the xacro description (`robot.urdf.xacro`), and the Gazebo plugins (`robot.gazebo.xacro`) — build and source the package:
 
 ```bash
-colcon build --packages-select robot_description
+colcon build --packages-select my_robot_description
 source install/setup.bash
 ```
 
 Then run:
 ```bash
-ros2 launch robot_description gazebo.launch.py
+ros2 launch my_robot_description gazebo.launch.py
 ```
 Alternatively, run the launch file directly inside gazebo by starting your workspace first and then selecting the gazebo launch file created for this workspace.
 
