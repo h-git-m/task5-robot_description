@@ -1,6 +1,9 @@
 # Task 5 — Robot Description: TF & Gazebo Simulation
 
-https://github.com/user-attachments/assets/e400e55c-3601-4718-88c4-3aaaa49804c9
+
+
+https://github.com/user-attachments/assets/3808b7c9-1340-4f08-b733-25e8189615b7
+
 ## 1. Project Overview
 
 This project continues from the previous URDF/Xacro assignment (Task 4). It builds on the existing `robot_description` package by adding everything needed to:
@@ -248,7 +251,7 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard
 
 **3. Terminal command:**
 ```bash
-ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.0}}"
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.2}, angular: {z: 0.1333}}"
 ```
 - `linear.x` controls forward/backward speed (positive = forward, negative = backward).
 - `angular.z` controls rotation (positive = turn left/counter-clockwise, negative = turn right/clockwise).
