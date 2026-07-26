@@ -172,7 +172,7 @@ This preconfigured view will let you visualize:
 - LiDAR readings
 - Camera readings
 
-**If you don't use the saved config**, add each display manually and set the topics as follows, and set the **Fixed Frame** to `odom`:
+**If you don't use the saved config**, add each display manually and set the topics as follows, and set the **Fixed Frame** to `odom`, if you're lauching gazebo. Otherwise, set the **Fixed Frame** to `base_footprint`:
 
 | Display     | Topic                  |
 |-------------|-------------------------|
