@@ -36,6 +36,7 @@ task5-robot_description/
     ├── package.xml
     ├── CMakeLists.txt
     └── README.md
+├── frames.pdf
 └── screenshots
 ```
 
