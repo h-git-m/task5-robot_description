@@ -239,6 +239,9 @@ The robot can be driven in three ways:
 **1. Keyboard :**
 
 Uses standard WASD-style keys to publish `/cmd_vel`.
+```bash
+ros2 run teleop_twist_keyboard teleop_twist_keyboard
+```
 
 **2. Gazebo's built-in Teleop panel** — open the panel from the Gazebo GUI and use the on-screen controls to send velocity commands directly.
 
